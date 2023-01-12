@@ -1,0 +1,15 @@
+/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/bin/Debug/net7.0/ExamWork
+/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/bin/Debug/net7.0/ExamWork.deps.json
+/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/bin/Debug/net7.0/ExamWork.runtimeconfig.json
+/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/bin/Debug/net7.0/ExamWork.dll
+/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/bin/Debug/net7.0/ExamWork.pdb
+/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/obj/Debug/net7.0/ExamWork.csproj.AssemblyReference.cache
+/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/obj/Debug/net7.0/ExamWork.GeneratedMSBuildEditorConfig.editorconfig
+/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/obj/Debug/net7.0/ExamWork.AssemblyInfoInputs.cache
+/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/obj/Debug/net7.0/ExamWork.AssemblyInfo.cs
+/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/obj/Debug/net7.0/ExamWork.csproj.CoreCompileInputs.cache
+/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/obj/Debug/net7.0/ExamWork.dll
+/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/obj/Debug/net7.0/refint/ExamWork.dll
+/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/obj/Debug/net7.0/ExamWork.pdb
+/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/obj/Debug/net7.0/ExamWork.genruntimeconfig.cache
+/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/obj/Debug/net7.0/ref/ExamWork.dll
