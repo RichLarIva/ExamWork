@@ -5,7 +5,7 @@ namespace ExamWork;
 class Program
 {
     static MySqlConnection conn;
-
+    
 
     public static void Query(string query, MySqlConnection connection)
     {
@@ -32,37 +32,66 @@ class Program
 
     static void Main(string[] args)
     {
-        string query = "SELECT * FROM Persons";
-        Connect("root", "", "MatsalApplikation");
-        MySqlCommand cmd = new MySqlCommand(query, conn);
-        cmd.CommandTimeout = 60;
-        MySqlDataReader reader;
-        try
+        List<string> scannedCodes = new List<string>();
+        bool userFound = false;
+        while (true)
         {
-            reader = cmd.ExecuteReader();
-
-            if (reader.HasRows)
+            
+            Console.Write("Barcode: ");
+            string barCode = Console.ReadLine();
+            string query = $"SELECT * FROM Persons WHERE Barcode='{barCode}'";
+            Connect("root", "", "MatsalApplikation");
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+            cmd.CommandTimeout = 60;
+            MySqlDataReader reader;
+            
+            try
             {
-                while (reader.Read())
+                reader = cmd.ExecuteReader();
+                
+                if (reader.HasRows)
                 {
-                    string[] row = { reader.GetString(0), reader.GetString(1), reader.GetString(2) };
-                    Console.WriteLine(reader.GetString(2));
+                    while (reader.Read())
+                    {
+                        userFound = true;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Couldn't find user.");
+                }
+                reader.Close();
+            }
+            catch (Exception err)
+            {
+                Console.WriteLine(err.ToString());
+            }
+            if (userFound)
+            {
+                if (!scannedCodes.Contains(barCode))
+                {
+                    Console.WriteLine("Dont exist");
+                    scannedCodes.Add(barCode);
+                    query = $"INSERT INTO LunchScans(Barcode, ScanCode) VALUES('{barCode}', '1')";
+                }
+                else if (scannedCodes.Contains(barCode))
+                {
+                    query = $"INSERT INTO LunchScans(`Barcode`, `ScanCode`) VALUES('{barCode}', '0')";
+                }
+                MySqlCommand sendData = new MySqlCommand(query, conn);
+                sendData.CommandTimeout = 60;
+                try
+                {
+                    MySqlDataReader newReader = sendData.ExecuteReader();
+                }
+                catch (Exception err)
+                {
+                    Console.WriteLine($"FAILED TO STORE {err.ToString()}");
                 }
             }
-            else
-            {
-                Console.WriteLine("No rows found.");
-            }
-
             conn.Close();
+            Console.WriteLine("Hello, World!");
         }
-        catch(Exception err)
-        {
-            Console.WriteLine(err.ToString());
-        }
-
-        Console.WriteLine("Hello, World!");
-        Console.ReadKey();
     }
 }
 
