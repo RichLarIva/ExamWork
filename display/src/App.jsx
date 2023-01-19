@@ -2,36 +2,41 @@ import './App.css';
 import { ReactComponent as ClockIcon } from './icons/clock.svg';
 import React, {useState, useEffect} from 'react';
 import NameList from './NameList';
-import io from 'socket.io-client';
-
+import axios from "axios";
 
 function App() {
-  const [socket, setSocket] = useState(null);
-
-  useEffect(() => {
-    const newSocket = io(`http://localhost:3002`);
-    setSocket(newSocket);
-    return () => newSocket.close();
-  }, [setSocket]);
-  const [names, setNames] = useState([
-  ])
-
-  function addNames(name){
-    setNames([...names, {id: Date.now(), ...name}]);
+  const [user, setUser] = useState([]);
+  let i = 1;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  async function fetchData(){
+    try{
+      const response = await axios.get("http://localhost:3030");
+      if(response.data.response.toString() !== ""){
+        setUser(response.data.response);
+        addNames(response.data.response.toString());
+      }
+    }
+    catch (error){
+      console.error(error);
+    }
   }
   useEffect(() => {
-    async function getData(){
-      const response = await fetch("http://localhost:3030/scannedNames");
-      let actualData = await response.json();
-      setNames([...names, {id: Date.now(), ...actualData.response.FullName}])
+    setInterval(() => fetchData(), 1000);
+  }, [fetchData])
+  const [names, setNames] = useState([
+    {name: "test", id: 1}
+  ])
+  function addNames(name){
+    if(name !== "")
+    {
+      setNames([...names, {id: i+=1, name: name}]);
     }
-    getData();
-  }, []);
+  }
 
   const [dateState, setDateState] = useState(new Date());
   const [dayState, setDayState] = useState(new Date());
   useEffect(() => {
-    setInterval(() => setDateState(new Date()), 1000);
+    setInterval(() => setDateState(new Date()), 60000);
   }, []);
   const weekDay = ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'];
   useEffect(() => {
@@ -52,11 +57,6 @@ function App() {
         </div>
       </header>
       <ul>
-        {names && names.map(({id, name}) => (
-          <li key={id}>
-            <h3>{name}</h3>
-          </li>
-        ))}
       </ul>
       <NameList names={names}/>
     </div>

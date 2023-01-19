@@ -92,12 +92,13 @@ class Program
                     scannedCodes.Add(barCode);
                     byte[] buffer = Encoding.UTF8.GetBytes(personName);
                     sendClient.Send(buffer, 0, buffer.Length, 0);
-                    query = $"INSERT INTO LunchScans(Barcode, ScanCode, FullName) VALUES('{barCode}', '1', '{personName}')";
+                    query = $"INSERT INTO LunchScans(Barcode, ScanCode) VALUES('{barCode}', '1')";
                 }
                 // If it has been scanned before, add the error code into the query.
                 else if (scannedCodes.Contains(barCode))
                 {
-                    query = $"INSERT INTO LunchScans(`Barcode`, `ScanCode`, FullName) VALUES('{barCode}', '0', '{personName}')";
+                    Console.WriteLine($"Already scanned {personName}");
+                    query = $"INSERT INTO LunchScans(`Barcode`, `ScanCode`) VALUES('{barCode}', '0')";
                     byte[] buffer = Encoding.UTF8.GetBytes("Already scanned");
                     sendClient.Send(buffer, 0, buffer.Length, 0);
                 }
