@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Security.Policy;
+using System.Text;
 using MySql.Data.MySqlClient;
 namespace ExamWork;
 
@@ -35,14 +37,24 @@ class Program
 
     static void Main(string[] args)
     {
+        Socket sendSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        Socket sendClient;
+
+        sendSocket.Bind(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 3002));
+        sendSocket.Listen(0);
+        sendClient = sendSocket.Accept();
+
+        
+
         // scannedCodes list is used to manage wether the code has been scanned previously.
         List<string> scannedCodes = new List<string>();
         bool userFound = false;
         string personName = "";
+        
         while (true)
         {
             Console.Write("Barcode: ");
-            string barCode = Console.ReadLine();
+            string barCode = Console.ReadLine().ToUpper();
             string query = $"SELECT * FROM Persons WHERE Barcode='{barCode}'";
             Connect("root", "", "MatsalApplikation");
             MySqlCommand cmd = new MySqlCommand(query, conn);
@@ -78,12 +90,16 @@ class Program
                 {
                     Console.WriteLine(personName);
                     scannedCodes.Add(barCode);
+                    byte[] buffer = Encoding.UTF8.GetBytes(personName);
+                    sendClient.Send(buffer, 0, buffer.Length, 0);
                     query = $"INSERT INTO LunchScans(Barcode, ScanCode, FullName) VALUES('{barCode}', '1', '{personName}')";
                 }
                 // If it has been scanned before, add the error code into the query.
                 else if (scannedCodes.Contains(barCode))
                 {
                     query = $"INSERT INTO LunchScans(`Barcode`, `ScanCode`, FullName) VALUES('{barCode}', '0', '{personName}')";
+                    byte[] buffer = Encoding.UTF8.GetBytes("Already scanned");
+                    sendClient.Send(buffer, 0, buffer.Length, 0);
                 }
                 MySqlCommand sendData = new MySqlCommand(query, conn);
                 sendData.CommandTimeout = 60;
@@ -98,6 +114,7 @@ class Program
             }
             conn.Close();
         }
+        
     }
 }
 

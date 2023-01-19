@@ -1,44 +1,27 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const app = express();
-const mysql = require('mysql');
+const net = require('net');
+const uuid = require('uuid');
 
-const conn = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "MatsalApplikation",
-    multipleStatements: true
-});
+const messages = new Set();
+const ids = new Map();
 
-conn.connect((err) => {
-    if(err) return console.log(err);
-    console.log("Connected to the server");
-})
 
-app.use(bodyParser.json());
-app.use(cors({
-    origin: '*'
-}));
 
-app.use(express.json());
-app.use(express.urlencoded({extended:true}));
-
-app.get("/scannedNames", (req, res) => {
-    const q = "SELECT * FROM LunchScans WHERE Date>=CURDATE() and Date < CURDATE() + INTERVAL 1 DAY"
-    const sql = conn.query(q, (err, results) => {
-        if(err) {
-            return console.log(err);
-        }
-        res.send(apiResponse((results)));
-    })
-})
-
-function apiResponse(results){
-    return JSON.stringify({"status": 200, "error": null, "response": results})
-}
-
-app.listen(3030, () =>{
-    console.log("Api launched on 3030");
-})
+var client3 = new net.Socket();
+client3.connect(3002, "127.0.0.1", () => {
+    console.log("client3 Connected");
+}) //Connect
+client3.on('close', function () {
+    client3.connect(3002, "127.0.0.1", () => {})
+}) //Reconnect if connection is closed
+client3.on('error', (ex) => {
+    if (ex.message.includes("client3 ECONNREFUSED")) {}
+}); //error
+client3.on('data', (data) => {
+    if(data.toString() === "Already scanned"){
+        console.log("ALREADY SCANNED");
+    }
+    else if(data.toString() !== "Already scanned"){
+      console.log(data.toString());
+      messages.add(data.toString());
+    }
+  })

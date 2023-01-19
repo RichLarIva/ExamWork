@@ -1,13 +1,18 @@
 import './App.css';
-import io from 'socket.io-client';
 import { ReactComponent as ClockIcon } from './icons/clock.svg';
 import React, {useState, useEffect} from 'react';
 import NameList from './NameList';
+import io from 'socket.io-client';
 
-const socket = io();
 
 function App() {
-  const [isConnected, setIsConnected] = useState(socket.connected);
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    const newSocket = io(`http://localhost:3002`);
+    setSocket(newSocket);
+    return () => newSocket.close();
+  }, [setSocket]);
   const [names, setNames] = useState([
   ])
 
