@@ -1,9 +1,9 @@
 import React from 'react';
 
-function NameDisplay({name}){
+function NameDisplay({name, id}){
     return (
         <div className='name'>
-            <h3>1</h3>
+            <h3>{id}</h3>
             <h3>{name}</h3>
         </div>
     )

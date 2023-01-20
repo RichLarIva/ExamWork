@@ -5,31 +5,35 @@ import NameList from './NameList';
 import axios from "axios";
 
 function App() {
-  const [user, setUser] = useState([]);
-  let i = 1;
+  const [count, setCount] = useState(1);
+  const [id, setID] = useState(1);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  async function fetchData(){
+  async function fetchData() 
+  {  
     try{
       const response = await axios.get("http://localhost:3030");
-      if(response.data.response.toString() !== ""){
-        setUser(response.data.response);
+        setCount(count + 1);
         addNames(response.data.response.toString());
-      }
     }
     catch (error){
       console.error(error);
     }
   }
   useEffect(() => {
-    setInterval(() => fetchData(), 1000);
-  }, [fetchData])
-  const [names, setNames] = useState([
-    {name: "test", id: 1}
-  ])
+    const interval = setInterval(() => {
+      fetchData();
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+  fetchData();
+
+  const [names, setNames] = useState([])
   function addNames(name){
     if(name !== "")
     {
-      setNames([...names, {id: i+=1, name: name}]);
+      setID(id + 1);
+      console.log(name);
+      setNames([{id: id, name: name}, ...names]);
     }
   }
 
