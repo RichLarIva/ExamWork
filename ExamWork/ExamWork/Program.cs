@@ -48,11 +48,11 @@ class Program
 
         // scannedCodes list is used to manage wether the code has been scanned previously.
         List<string> scannedCodes = new List<string>();
-        bool userFound = false;
         string personName = "";
         
         while (true)
         {
+            bool userFound = false;
             Console.Write("Barcode: ");
             string barCode = Console.ReadLine().ToUpper();
             string query = $"SELECT * FROM Persons WHERE Barcode='{barCode}'";

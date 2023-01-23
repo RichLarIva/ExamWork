@@ -1,6 +1,7 @@
 .App {
   background: #333333;
   min-height: 100vh;
+  overflow: hidden;
 }
 
 .App-logo {
@@ -23,6 +24,24 @@
   justify-content: space-between;
   background: #9e0eae;
   color:white;
+}
+
+.popup{
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  border:#9e0eae 5px solid;
+  background: #141414;
+  color: #ff0000;
+  width: 35vw;
+  height:25vh;
+  padding: 15px;
+}
+
+.popup hr{
+  border: 2px #9e0eae solid;
+  width: 95%;
 }
 
 @media (prefers-reduced-motion: no-preference) {

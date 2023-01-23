@@ -2,6 +2,7 @@ import './App.css';
 import { ReactComponent as ClockIcon } from './icons/clock.svg';
 import React, {useState, useEffect} from 'react';
 import NameList from './NameList';
+import ScannedPopup from './ScannedPopup';
 import axios from "axios";
 
 function App() {
@@ -28,13 +29,24 @@ function App() {
   fetchData();
 
   const [names, setNames] = useState([])
+  const [isOpen, setIsOpen] = useState(false);
   function addNames(name){
     if(name !== "")
     {
-      setID(id + 1);
-      console.log(name);
-      setNames([{id: id, name: name}, ...names]);
+      if(name !== "Already scanned"){
+        setID(id + 1);
+        console.log(name);
+        setNames([{id: id, name: name}, ...names]);
+        
+      }
+      if(name === "Already scanned"){
+        setIsOpen(true);
+        setTimeout(() => {
+          setIsOpen(false);
+        }, 15000);
+      }
     }
+    
   }
 
   const [dateState, setDateState] = useState(new Date());
@@ -46,12 +58,15 @@ function App() {
   useEffect(() => {
     setInterval(() => setDayState(new Date()), 25000);
   }, []);
+
+
   return (
     <div className="App">
       <header className="App-header">
         <div>
           <p className='currentDay'>{weekDay[dayState.getDay()]}</p>
         </div>
+        {isOpen && <ScannedPopup/>}
         <div>
         <ClockIcon/><time className="clock">{dateState.toLocaleString('en-us', {
           hour: 'numeric',
@@ -60,8 +75,7 @@ function App() {
         })}</time>
         </div>
       </header>
-      <ul>
-      </ul>
+
       <NameList names={names}/>
     </div>
   );
