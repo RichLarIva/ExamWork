@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Net.Sockets;
 using System.Security.Policy;
 using System.Text;
 using MySql.Data.MySqlClient;
@@ -8,45 +7,14 @@ namespace ExamWork;
 
 class Program
 {
-    static MySqlConnection conn;
-
-    public static void Query(string query, MySqlConnection connection)
-    {
-        MySqlCommand command = new MySqlCommand(query, connection);
-        command.CommandTimeout = 60;
-    }
-
-
-    // Method that attempts to connect to the database.
-    public static void Connect(string user, string password, string db)
-    {
-        conn = new MySqlConnection();
-        try
-        {
-            string connectionString = $"datasource=127.0.0.1;port=3306;username={user};password={password};database={db}";
-            conn.ConnectionString = connectionString;
-            conn.Open();
-            Console.WriteLine($"Successfully connected to {db}");
-
-        }
-        catch (Exception err)
-        {
-            Console.WriteLine(err.ToString());
-        }
-    }
 
     static void Main(string[] args)
     {
-        Socket sendSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        Socket sendClient;
+        MySQLDataManager mySqlData = new MySQLDataManager();
+        ConnectionManager connectionManager = new ConnectionManager();
+        connectionManager.Setup();
 
-        sendSocket.Bind(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 3002));
-        sendSocket.Listen(0);
-        sendClient = sendSocket.Accept();
-
-        
-
-        // scannedCodes list is used to manage wether the code has been scanned previously.
+        // scannedCodes list is used to manage whether the code has been scanned previously.
         List<string> scannedCodes = new List<string>();
         string personName = "";
         
@@ -56,9 +24,8 @@ class Program
             Console.Write("Barcode: ");
             string barCode = Console.ReadLine().ToUpper();
             string query = $"SELECT * FROM Persons WHERE Barcode='{barCode}'";
-            Connect("root", "", "MatsalApplikation");
-            MySqlCommand cmd = new MySqlCommand(query, conn);
-            cmd.CommandTimeout = 60;
+            mySqlData.Connect("root", "", "MatsalApplikation");
+            MySqlCommand cmd = mySqlData.Query(query);
             MySqlDataReader reader;
             
             try
@@ -90,20 +57,15 @@ class Program
                 {
                     Console.WriteLine(personName);
                     scannedCodes.Add(barCode);
-                    byte[] buffer = Encoding.UTF8.GetBytes(personName);
-                    sendClient.Send(buffer, 0, buffer.Length, 0);
-                    query = $"INSERT INTO LunchScans(Barcode, ScanCode) VALUES('{barCode}', '1')";
+                    query = connectionManager.ReturnQuery(personName, barCode, 1);
                 }
                 // If it has been scanned before, add the error code into the query.
                 else if (scannedCodes.Contains(barCode))
                 {
                     Console.WriteLine($"Already scanned {personName}");
-                    query = $"INSERT INTO LunchScans(`Barcode`, `ScanCode`) VALUES('{barCode}', '0')";
-                    byte[] buffer = Encoding.UTF8.GetBytes("Already scanned");
-                    sendClient.Send(buffer, 0, buffer.Length, 0);
+                    query = connectionManager.ReturnQuery("Already Scanned", barCode, 0);
                 }
-                MySqlCommand sendData = new MySqlCommand(query, conn);
-                sendData.CommandTimeout = 60;
+                MySqlCommand sendData = mySqlData.Query(query);
                 try
                 {
                     MySqlDataReader newReader = sendData.ExecuteReader();
@@ -113,7 +75,7 @@ class Program
                     Console.WriteLine($"FAILED TO STORE {err.ToString()}");
                 }
             }
-            conn.Close();
+            mySqlData.CloseConnection();
         }
         
     }

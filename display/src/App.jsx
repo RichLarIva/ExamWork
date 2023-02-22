@@ -36,7 +36,9 @@ function App() {
       if(name !== "Already scanned"){
         setID(id + 1);
         console.log(name);
-        setNames([{id: id, name: name}, ...names]);
+        const date = new Date();
+        const time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        setNames([{id: id, name: name, timeStamp: time}, ...names]);
         
       }
       if(name === "Already scanned"){
@@ -51,6 +53,7 @@ function App() {
 
   const [dateState, setDateState] = useState(new Date());
   const [dayState, setDayState] = useState(new Date());
+
   useEffect(() => {
     setInterval(() => setDateState(new Date()), 60000);
   }, []);

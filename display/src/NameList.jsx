@@ -7,7 +7,7 @@ function NameList({names}){
         <div className="names">
             {names.map(name =>(
                 <div key={name.id}>
-                <NameDisplay id={name.id} name={name.name}/>
+                <NameDisplay id={name.id} name={name.name} timeStamp={name.timeStamp}/>
                 </div>
             ))}
         </div>
