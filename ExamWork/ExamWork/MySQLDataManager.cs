@@ -6,7 +6,7 @@ namespace ExamWork
     public class MySQLDataManager
     {
         private MySqlConnection conn;
-
+    
         public void Connect(string user, string password, string db)
         {
             conn = new MySqlConnection();

@@ -3,11 +3,13 @@ using System.Net;
 using System.Security.Policy;
 using System.Text;
 using MySql.Data.MySqlClient;
+
 namespace ExamWork;
 
 class Program
 {
-
+    
+    
     static void Main(string[] args)
     {
         MySQLDataManager mySqlData = new MySQLDataManager();
@@ -17,7 +19,7 @@ class Program
         // scannedCodes list is used to manage whether the code has been scanned previously.
         List<string> scannedCodes = new List<string>();
         string personName = "";
-        
+
         while (true)
         {
             bool userFound = false;
@@ -27,11 +29,11 @@ class Program
             mySqlData.Connect("root", "", "MatsalApplikation");
             MySqlCommand cmd = mySqlData.Query(query);
             MySqlDataReader reader;
-            
+
             try
             {
                 reader = cmd.ExecuteReader();
-                
+
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -44,40 +46,49 @@ class Program
                 {
                     Console.WriteLine("Couldn't find user.");
                 }
+
                 reader.Close();
             }
             catch (Exception err)
             {
                 Console.WriteLine(err.ToString());
             }
-            if (userFound)
-            {
-                // If it hasn't been scanned add it to the list.
-                if (!scannedCodes.Contains(barCode))
-                {
-                    Console.WriteLine(personName);
-                    scannedCodes.Add(barCode);
-                    query = connectionManager.ReturnQuery(personName, barCode, 1);
-                }
-                // If it has been scanned before, add the error code into the query.
-                else if (scannedCodes.Contains(barCode))
-                {
-                    Console.WriteLine($"Already scanned {personName}");
-                    query = connectionManager.ReturnQuery("Already Scanned", barCode, 0);
-                }
-                MySqlCommand sendData = mySqlData.Query(query);
-                try
-                {
-                    MySqlDataReader newReader = sendData.ExecuteReader();
-                }
-                catch (Exception err)
-                {
-                    Console.WriteLine($"FAILED TO STORE {err.ToString()}");
-                }
-            }
+
+            ScanUser(userFound, personName, barCode, scannedCodes, connectionManager, mySqlData);
+
             mySqlData.CloseConnection();
         }
-        
     }
-}
+    
+    static void ScanUser(bool userFound, string personName, string barCode, List<string> scannedCodes, ConnectionManager connectionManager, MySQLDataManager mySqlData)
+    {
+        string? query = null;
+        if (userFound)
+        {
+            // If it hasn't been scanned add it to the list.
+            if (!scannedCodes.Contains(barCode))
+            {
+                Console.WriteLine(personName);
+                scannedCodes.Add(barCode);
+                query = connectionManager.ReturnQuery(personName, barCode, 1);
+            }
+            // If it has been scanned before, add the error code into the query.
+            else if (scannedCodes.Contains(barCode))
+            {
+                Console.WriteLine($"Already scanned {personName}");
+                query = connectionManager.ReturnQuery("Already Scanned", barCode, 0);
+            }
 
+            MySqlCommand sendData = mySqlData.Query(query);
+            try
+            {
+                MySqlDataReader newReader = sendData.ExecuteReader();
+            }
+            catch (Exception err)
+            {
+                Console.WriteLine($"FAILED TO STORE {err.ToString()}");
+            }
+        }
+    }
+    
+}

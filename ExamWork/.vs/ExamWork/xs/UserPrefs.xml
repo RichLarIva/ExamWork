@@ -1,10 +1,19 @@
 ﻿<Properties StartupConfiguration="{8CB53D9F-5EE4-4E42-985B-847AA9D6BC0B}|Default">
+  <Xamarin.Addins.Core.Project ActiveDebugTarget="MyAppleMacCatalystID" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MultiItemStartupConfigurations />
-  <Xamarin.Addins.Core.Project ActiveDebugTarget="MyAppleMacCatalystID" />
+  <MonoDevelop.Ide.ItemProperties.ExamWork PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/Transmitter.cs" relfile="ExamWork/Transmitter.cs" line="104" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workbench ActiveDocument="ExamWork/Program.cs">
     <Files>
-      <File FileName="ExamWork/Program.cs" Line="108" Column="18" />
+      <File FileName="ExamWork/Program.cs" Line="2" Column="18" />
+      <File FileName="ExamWork/MySQLDataManager.cs" Line="36" Column="26" />
+      <File FileName="ExamWork/ConnectionManager.cs" Line="26" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,17 +24,11 @@
                 <Node name="FrameworkReferences" expanded="True" />
                 <Node name="PackageDependencies" expanded="True" />
               </Node>
+              <Node name="Program.cs" selected="True" />
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/Transmitter.cs" relfile="ExamWork/Transmitter.cs" line="104" column="1" />
-    </BreakpointStore>
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.ExamWork PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>
