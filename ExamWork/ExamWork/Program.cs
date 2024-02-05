@@ -14,7 +14,6 @@ class Program
     {
         MySQLDataManager mySqlData = new MySQLDataManager();
         ConnectionManager connectionManager = new ConnectionManager();
-        connectionManager.Setup();
 
         // scannedCodes list is used to manage whether the code has been scanned previously.
         List<string> scannedCodes = new List<string>();

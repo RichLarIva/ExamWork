@@ -1531,25 +1531,26 @@
     ]
   },
   "packageFolders": {
-    "/Users/richard.larssonivar/.nuget/packages/": {}
+    "C:\\Users\\richa\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/ExamWork.csproj",
+      "projectUniqueName": "C:\\Users\\richa\\OneDrive\\Dokument\\GitHub\\ExamWork\\ExamWork\\ExamWork\\ExamWork.csproj",
       "projectName": "ExamWork",
-      "projectPath": "/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/ExamWork.csproj",
-      "packagesPath": "/Users/richard.larssonivar/.nuget/packages/",
-      "outputPath": "/Users/richard.larssonivar/Documents/Exam/ExamWork/ExamWork/ExamWork/obj/",
+      "projectPath": "C:\\Users\\richa\\OneDrive\\Dokument\\GitHub\\ExamWork\\ExamWork\\ExamWork\\ExamWork.csproj",
+      "packagesPath": "C:\\Users\\richa\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\richa\\OneDrive\\Dokument\\GitHub\\ExamWork\\ExamWork\\ExamWork\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/richard.larssonivar/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\richa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/library-packs": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1589,7 +1590,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.200/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

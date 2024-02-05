@@ -9,7 +9,9 @@ namespace ExamWork
 	{
         private Socket _sendClient;
 
-		public void Setup()
+        public ConnectionManager() => Setup();
+
+        private void Setup()
 		{
             Socket sendSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             
